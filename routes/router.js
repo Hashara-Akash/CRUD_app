@@ -2,29 +2,27 @@ const express = require("express");
 const router = express.Router();
 const users = require("../models/userSchema");
 
-//router.get("/",(req,res)=>{
-  //  console.log("connect");
-//});
+
 
 //register user
 router.post("/register",async(req,res)=>{
-    //console.log(req.body);
-    const {name,email,age,phone,program,address,program_details} = req.body;
+    
+    const { name,program,program_cost,phone,register_date,address,program_details} = req.body;
 
-    if(!name || !program || !age || !phone || !program || !address || !program_details){
+    if( !name || !program || !program_cost || !phone || !register_date || !address || !program_details){
         res.status(422).send("plz fill the data");
     }
 
     try {
 
-        const preuser = await users.findOne({email:email});
-        console.log(preuser);
+      //  const preuser = await users.findOne({phone:phone});
+      //rs  console.log(preuser);
 
         if(preuser){
             res.status(422).send("this is user is already precent");
         }else{
             const adduser = new users({
-                name,email,age,phone,program,address,program_details
+                name,program,program_cost,phone,register_date,address,program_details
             });
 
             await adduser.save();
